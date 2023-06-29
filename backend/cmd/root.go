@@ -133,9 +133,8 @@ func openDB(connURL string) (*sql.DB, error) {
 		return nil, fmt.Errorf("unable to parse DB connection string: %w", err)
 	}
 
-	return sql.OpenDB(conn), nil
 	// Instrument Database Calls: Replace the line above with the one below
-	//return traceDB(connURL, conn)
+	return traceDB(connURL, conn)
 }
 
 func traceDB(connURL string, conn driver.Connector) (*sql.DB, error) {
