@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"time"
 )
 
 type rowQuerier interface {
@@ -30,7 +29,6 @@ func queryRow[T any](ctx context.Context, db rowQuerier, columns func(*T) []any,
 }
 
 func queryRows[T any](ctx context.Context, db rowsQuerier, columns func(*T) []any, query string, args ...any) ([]T, error) {
-	t := time.Now()
 	rows, err := db.QueryContext(ctx, query, args...)
 	if err != nil {
 		return nil, fmt.Errorf("query execution failed: %w", err)
@@ -47,7 +45,6 @@ func queryRows[T any](ctx context.Context, db rowsQuerier, columns func(*T) []an
 		result = append(result, elem)
 	}
 
-	fmt.Println("TIME", time.Now().Sub(t))
 	if err := rows.Err(); err != nil {
 		return nil, fmt.Errorf("failure while iterating over rows: %w", err)
 	}
