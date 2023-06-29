@@ -65,12 +65,12 @@ func Run(ctx context.Context, cfg *Config, logger *slog.Logger, stdout, stderr i
 	}
 
 	// Setup Tracing: Uncomment this block
-	//shutdown, err := setupTracing(ctx, logger)
-	//if err != nil {
-	//	return err
-	//}
-	//
-	//defer shutdown()
+	shutdown, err := setupTracing(ctx, logger)
+	if err != nil {
+		return err
+	}
+
+	defer shutdown()
 
 	db, err := openDB(cfg.DBConn)
 	if err != nil {
